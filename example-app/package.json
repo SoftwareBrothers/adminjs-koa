@@ -1,0 +1,27 @@
+{
+  "name": "example-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "yarn build && node build/index.js",
+    "start:dev": "concurrently \"yarn build --watch\" \"nodemon --ext '.js' --watch ../build --watch ./build --ignore 'cypress/**/*.js' node build/src/index.js\"",
+    "start:debug": "DEBUG=koa* yarn start:dev",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "devDependencies": {
+    "@types/mongoose": "^5.7.35",
+    "concurrently": "^5.2.0",
+    "cypress": "^4.11.0",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "admin-bro": "^3.0.0-beta.7",
+    "admin-bro-mongoose": "^0.5.2",
+    "mongoose": "^5.9.27"
+  }
+}

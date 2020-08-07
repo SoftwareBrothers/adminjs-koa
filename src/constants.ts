@@ -1,0 +1,6 @@
+export const DEFAULT_ROOT_PATH = '/admin'
+export const INVALID_CREDENTIALS_ERROR_MESSAGE = 'invalidCredentials'
+export const ADMIN_BRO_PACKAGE_NAME = 'AdminBro'
+export const ADMIN_BRO_ERROR_MESSAGE = 'you have to pass an instance of AdminBro to the buildRouter() function'
+export const ADMIN_BRO_ERROR_NAME = 'WrongArgumentError'
+export const INITIALIZED_MESSAGE = 'AdminBro: bundle ready'

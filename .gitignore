@@ -1,0 +1,8 @@
+.idea
+node_modules
+build
+example-app/cypress/videos
+yarn-error.log
+admin-bro-koa.iml
+types/
+.adminbro
