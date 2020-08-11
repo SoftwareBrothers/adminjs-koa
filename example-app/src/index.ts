@@ -41,6 +41,7 @@ const authenticatedRouter = async () => {
     process.env.MONGO_URL || 'mongodb://localhost:27017/example', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useFindAndModify: true,
     },
   )
   const app = new Koa()
