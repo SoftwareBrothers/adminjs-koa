@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const { Schema } = mongoose
 
-const ArticleSchema = new Schema ({
+const ArticleSchema = new Schema({
   title: String,
   content: String,
   author: String,

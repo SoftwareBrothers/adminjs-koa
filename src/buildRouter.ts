@@ -1,18 +1,25 @@
-import AdminBro from 'admin-bro';
+import AdminBro from 'admin-bro'
 import formidableMiddleware from 'koa2-formidable'
 import Router from '@koa/router'
-import Application from 'koa';
+import Application from 'koa'
 import { addAdminBroRoutes, verifyAdminBro } from './utils'
-import { DEFAULT_ROOT_PATH, INITIALIZED_MESSAGE } from './constants';
+import { DEFAULT_ROOT_PATH, INITIALIZED_MESSAGE } from './constants'
 
-const buildRouter = (admin: AdminBro, app: Application, predefinedRouter?: Router, formidableOptions?: Object) => {
+const buildRouter = (
+  admin: AdminBro,
+  app: Application,
+  predefinedRouter?: Router,
+  formidableOptions?: any,
+): Router => {
   verifyAdminBro(admin)
 
   admin.initialize().then(() => {
     console.log(INITIALIZED_MESSAGE)
   })
 
-  const router = predefinedRouter || new Router({ prefix: admin.options.rootPath || DEFAULT_ROOT_PATH })
+  const router = predefinedRouter || new Router({
+    prefix: admin.options.rootPath || DEFAULT_ROOT_PATH,
+  })
 
   router.use(formidableMiddleware(formidableOptions))
 

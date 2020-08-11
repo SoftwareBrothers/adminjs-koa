@@ -41,7 +41,7 @@ const authenticatedRouter = async () => {
   const app = new Koa()
 
   // in a real-world app the keys should be more complicated
-  app.keys = ['secret1', 'secret2'];
+  app.keys = ['secret1', 'secret2']
 
   const admin = new AdminBro({
     databases: [connection],

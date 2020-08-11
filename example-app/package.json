@@ -22,6 +22,7 @@
   "dependencies": {
     "admin-bro": "^3.0.0-beta.7",
     "admin-bro-mongoose": "^0.5.2",
+    "koa": "^2.13.0",
     "mongoose": "^5.9.27"
   }
 }
