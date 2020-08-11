@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+      "baseUrl": ".",
       "outDir": "./build",
       "target": "es2017",
       "esModuleInterop": true,
@@ -11,7 +12,11 @@
       "noImplicitThis": true,
       "moduleResolution": "node",
       "module": "commonjs",
-      "types": ["cypress"]
+      "types": ["cypress"],
+      "paths": {
+        "react": ["node_modules/@types/react"],
+        "admin-bro": ["node_modules/admin-bro"],
+      }
   },
   "include": [
       "./src/**/*",
