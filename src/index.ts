@@ -40,8 +40,8 @@
  * ```
  * const AdminBro = require('admin-bro')
  * const { buildRouter } = require('@admin-bro/koa')
- * const Koa = require('koa');
  *
+ * const Koa = require('koa');
  * const app = new Koa();
  *
  * const adminBro = new AdminBro({
@@ -49,40 +49,24 @@
  *   rootPath: '/admin',
  * })
  *
- * const router = buildRouter(adminBro)
- * app.use(adminBro.options.rootPath, router)
+ * const router = buildRouter(adminBro, app)
+ *
+ * app
+ *   .use(router.routes())
+ *   .use(router.allowedMethods())
+ *
  * app.listen(3000)
  * ```
  *
  * ## Using build in authentication
  *
- * To protect the routes with a session authentication, you can use predefined
- * {@link module:@admin-bro/express.buildAuthenticatedRouter} method.
- *
- * Note! To use authentication in production environment, there is a need to configure
- * express-session for production build. It can be achieved by passing options to
- * `sessionOptions` parameter. Read more on [express/session Github page](https://github.com/expressjs/session)
+ * To protect the routes with a session authentication, you can use any
+ * middleware you want, and then simply pass `buildRouter` to the app.
  *
  * ## Adding custom authentication
  *
  * You can add your custom authentication setup by firstly creating the router and then
  * passing it via the `predefinedRouter` option.
- *
- * ```
- * let router = express.Router()
- * router.use((req, res, next) => {
- *   if (req.session && req.session.admin) {
- *     req.session.adminUser = req.session.admin
- *     next()
- *   } else {
- *     res.redirect(adminBro.options.loginPath)
- *   }
- * })
- * router = AdminBroExpress.buildRouter(adminBro, router)
- * ```
- *
- * Where `req.session.admin` is {@link AdminBro#CurrentAdmin},
- * meaning that it should have at least an email property.
  */
 
 import buildRouter from './buildRouter'

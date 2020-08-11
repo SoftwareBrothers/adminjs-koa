@@ -5,7 +5,7 @@ import formidableMiddleware from 'koa2-formidable'
 import Application from 'koa'
 import { addAdminBroAuthRoutes, addAdminBroRoutes } from './utils'
 import { DEFAULT_ROOT_PATH } from './constants'
-import { Auth } from './types'
+import { KoaAuthOptions } from './types'
 
 let session
 
@@ -16,10 +16,23 @@ try {
   console.info('koa-session was not loaded')
 }
 
+/**
+ * Builds regular koa router.
+ * @memberof module:@admin-bro/koa
+ *
+ * @param {AdminBro}    admin      AdminBro instance
+ * @param {Application} app        koa application created by `new Koa()`
+ * @param {KoaAuthOptions} auth       authentication options
+ * @param {Router}      [predefinedRouter] if you have any predefined router
+ *    pass it here
+ * @param {FormidableOptions} formidableOptions options passed to formidable
+ *    module {@link https://github.com/node-formidable/formidable#options}
+ * @return  {Router}  @koa/router
+ */
 const buildAuthenticatedRouter = (
   admin: AdminBro,
   app: Application,
-  auth: Auth,
+  auth: KoaAuthOptions,
   predefinedRouter?: Router,
   formidableOptions?: any,
 ): Router => {
