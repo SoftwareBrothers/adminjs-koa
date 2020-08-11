@@ -8,15 +8,14 @@ import {
   ADMIN_BRO_ERROR_MESSAGE,
   ADMIN_BRO_ERROR_NAME,
   ADMIN_BRO_PACKAGE_NAME, DEFAULT_ROOT_PATH,
-  INVALID_CREDENTIALS_ERROR_MESSAGE
-} from './constants';
-import { Auth } from './types';
+  INVALID_CREDENTIALS_ERROR_MESSAGE,
+} from './constants'
+import { Auth } from './types'
 
-
-const addAdminBroRoutes = (admin: AdminBro, router: Router, app: Application) => {
+const addAdminBroRoutes = (admin: AdminBro, router: Router, app: Application): void => {
   const { routes } = AdminBro.Router
 
-  routes.forEach(route => {
+  routes.forEach((route) => {
     const koaPath = route.path.replace(/{/g, ':').replace(/}/g, '')
 
     const handler = async (ctx, next) => {
@@ -30,8 +29,8 @@ const addAdminBroRoutes = (admin: AdminBro, router: Router, app: Application) =>
           query: request.query,
           payload: {
             ...(request.body || {}),
-            ...(request.files || {})
-          }
+            ...(request.files || {}),
+          },
         }, response)
 
         if (route.contentType) {
@@ -59,10 +58,13 @@ const addAdminBroRoutes = (admin: AdminBro, router: Router, app: Application) =>
 
   const { assets } = AdminBro.Router
 
-  assets.forEach(asset => app.use(mount(admin.options.rootPath + asset.path, serve(path.dirname(asset.src), { index: path.basename(asset.src) }))))
+  assets.forEach((asset) => app.use(
+    mount(admin.options.rootPath + asset.path,
+      serve(path.dirname(asset.src), { index: path.basename(asset.src) })),
+  ))
 }
 
-const verifyAdminBro = (admin: AdminBro) => {
+const verifyAdminBro = (admin: AdminBro): void => {
   if (!admin || admin.constructor.name !== ADMIN_BRO_PACKAGE_NAME) {
     const e = new Error(ADMIN_BRO_ERROR_MESSAGE)
     e.name = ADMIN_BRO_ERROR_NAME
@@ -70,13 +72,13 @@ const verifyAdminBro = (admin: AdminBro) => {
   }
 }
 
-const addAdminBroAuthRoutes = (admin: AdminBro, router: Router, auth: Auth) => {
+const addAdminBroAuthRoutes = (admin: AdminBro, router: Router, auth: Auth): void => {
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
   loginPath = loginPath.replace(DEFAULT_ROOT_PATH, '')
   logoutPath = logoutPath.replace(DEFAULT_ROOT_PATH, '')
 
-  router.get(loginPath, async ctx => {
+  router.get(loginPath, async (ctx) => {
     ctx.body = await admin.renderLogin({
       action: rootPath + loginPath,
       errorMessage: null,
@@ -103,7 +105,7 @@ const addAdminBroAuthRoutes = (admin: AdminBro, router: Router, auth: Auth) => {
   })
 
   router.use(async (ctx: ParameterizedContext, next) => {
-    if (AdminBro.Router.assets.find(asset => ctx.request.originalUrl.match(asset.path))) {
+    if (AdminBro.Router.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
       await next()
     } else if (ctx.session.adminUser) {
       await next()

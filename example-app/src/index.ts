@@ -2,21 +2,24 @@ import Koa from 'koa'
 import AdminBro from 'admin-bro'
 import adminBroKoa from '@admin-bro/koa'
 import mongoose from 'mongoose'
-import mongooseAdapter from 'admin-bro-mongoose'
+import mongooseAdapter from '@admin-bro/mongoose'
 import './mongoose/admin-model'
 import './mongoose/article-model'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv-json')({ path: 'cypress.env.json' })
 
 const PORT = 3000
 
 const ADMIN = {
-  email: 'test@example.com',
-  password: 'password',
+  email: process.env.ADMIN_EMAIL || 'admin@example.com',
+  password: process.env.ADMIN_PASSWORD || 'password',
 }
 
 AdminBro.registerAdapter(mongooseAdapter)
 
 const simpleRouter = async () => {
-  const connection = await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/example')
+  const connection = await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/koa-example')
   const app = new Koa()
 
   const admin = new AdminBro({
@@ -37,11 +40,17 @@ const simpleRouter = async () => {
 }
 
 const authenticatedRouter = async () => {
-  const connection = await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/example')
+  const connection = await mongoose.connect(
+    process.env.MONGO_URL || 'mongodb://localhost:27017/koa-example', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: true,
+    },
+  )
   const app = new Koa()
 
   // in a real-world app the keys should be more complicated
-  app.keys = ['secret1', 'secret2'];
+  app.keys = ['secret1', 'secret2']
 
   const admin = new AdminBro({
     databases: [connection],

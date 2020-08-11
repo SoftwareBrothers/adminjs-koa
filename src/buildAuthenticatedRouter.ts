@@ -1,16 +1,18 @@
+/* eslint-disable global-require */
 import AdminBro from 'admin-bro'
-import Router from '@koa/router';
+import Router from '@koa/router'
 import formidableMiddleware from 'koa2-formidable'
-import Application from 'koa';
-import { addAdminBroAuthRoutes, addAdminBroRoutes } from './utils';
-import { DEFAULT_ROOT_PATH } from './constants';
-import { Auth } from './types';
+import Application from 'koa'
+import { addAdminBroAuthRoutes, addAdminBroRoutes } from './utils'
+import { DEFAULT_ROOT_PATH } from './constants'
+import { Auth } from './types'
 
 let session
 
 try {
   session = require('koa-session')
 } catch (e) {
+  // eslint-disable-next-line no-console
   console.info('koa-session was not loaded')
 }
 
@@ -19,15 +21,17 @@ const buildAuthenticatedRouter = (
   app: Application,
   auth: Auth,
   predefinedRouter?: Router,
-  formidableOptions?: Object
-) => {
+  formidableOptions?: any,
+): Router => {
   if (!session) {
     throw new Error(['In order to use authentication, you have to install',
       'koa-session package',
     ].join(' '))
   }
 
-  const router = predefinedRouter || new Router({ prefix: admin.options.rootPath || DEFAULT_ROOT_PATH })
+  const router = predefinedRouter || new Router({
+    prefix: admin.options.rootPath || DEFAULT_ROOT_PATH,
+  })
 
   router.use(formidableMiddleware(formidableOptions))
 
