@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2020: true,
+    'cypress/globals': true,
   },
   extends: [
     'airbnb',
@@ -18,6 +19,7 @@ module.exports = {
   },
   plugins: [
     'react',
+    'cypress',
     '@typescript-eslint',
   ],
   rules: {
