@@ -2,7 +2,7 @@ import Koa from 'koa'
 import AdminBro from 'admin-bro'
 import adminBroKoa from '@admin-bro/koa'
 import mongoose from 'mongoose'
-import mongooseAdapter from 'admin-bro-mongoose'
+import mongooseAdapter from '@admin-bro/mongoose'
 import './mongoose/admin-model'
 import './mongoose/article-model'
 
@@ -37,7 +37,12 @@ const simpleRouter = async () => {
 }
 
 const authenticatedRouter = async () => {
-  const connection = await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/example')
+  const connection = await mongoose.connect(
+    process.env.MONGO_URL || 'mongodb://localhost:27017/example', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+  )
   const app = new Koa()
 
   // in a real-world app the keys should be more complicated
