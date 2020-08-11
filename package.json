@@ -39,11 +39,13 @@
     "semantic-release-slack-bot": "^1.6.2",
     "typescript": "^3.9.7"
   },
-  "dependencies": {
+  "peerDependencies": {
     "koa2-formidable": "^1.0.2",
-    "@koa/router": "^9.3.1",
     "admin-bro": ">=3.0.0-beta.7",
-    "koa": "^2.13.0",
+    "@koa/router": "^9.3.1",
+    "koa": "^2.13.0"
+  },
+  "dependencies": {
     "koa-session": "^6.0.0",
     "koa-mount": "^4.0.0",
     "koa-static": "^5.0.0"
