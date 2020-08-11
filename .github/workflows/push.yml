@@ -81,6 +81,7 @@ jobs:
       - name: Install
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install
+      - run: yarn add koa2-formidable @koa/router koa
       - name: Download Build
         uses: actions/download-artifact@v1
         with:
