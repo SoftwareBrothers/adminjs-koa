@@ -5,7 +5,9 @@ import { CurrentAdmin } from 'admin-bro'
  * @alias KoaAuthenticateFunction
  *
  * @description
- * Authentication function
+ * An async authentication function, returning {@link CurrentAdmin}
+ *
+ * @returns {Promise<CurrentAdmin>}
  */
 export type KoaAuthenticateFunction = (
   /**
