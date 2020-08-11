@@ -26,10 +26,10 @@
     koa-static "^5.0.0"
     koa2-formidable "^1.0.2"
 
-"@admin-bro/mongoose@^1.0.0-beta.2":
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@admin-bro/mongoose/-/mongoose-1.0.0-beta.3.tgz#2c86b953b186d6490f6d40b7b18775834630c684"
-  integrity sha512-bPdJRIHszwBNmBu5cH6Dl+tN9Fq8dPAbKmw1chbf49csdhGem2lIxLFqlbwA+kF1r98o9Hk4kYHekaOJBnUdrw==
+"@admin-bro/mongoose@^1.0.0-beta.4":
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/@admin-bro/mongoose/-/mongoose-1.0.0-beta.4.tgz#c156d8bd8c13a3a0884e2be612a9924771141133"
+  integrity sha512-64hg8UVIne3jgSbFjA/rAtVgd8PwltJL/DTZK4Xe+fIoN7RELkqJqoxVGZmLEefBBzNGHFPY+88fDGjNpbXu9Q==
   dependencies:
     escape-regexp "0.0.1"
     flat "^4.1.0"
