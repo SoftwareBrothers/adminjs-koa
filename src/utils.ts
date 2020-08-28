@@ -10,7 +10,7 @@ import {
   ADMIN_BRO_PACKAGE_NAME, DEFAULT_ROOT_PATH,
   INVALID_CREDENTIALS_ERROR_MESSAGE,
 } from './constants'
-import { Auth } from './types'
+import { KoaAuthOptions } from './types'
 
 const addAdminBroRoutes = (admin: AdminBro, router: Router, app: Application): void => {
   const { routes } = AdminBro.Router
@@ -72,7 +72,7 @@ const verifyAdminBro = (admin: AdminBro): void => {
   }
 }
 
-const addAdminBroAuthRoutes = (admin: AdminBro, router: Router, auth: Auth): void => {
+const addAdminBroAuthRoutes = (admin: AdminBro, router: Router, auth: KoaAuthOptions): void => {
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
   loginPath = loginPath.replace(DEFAULT_ROOT_PATH, '')

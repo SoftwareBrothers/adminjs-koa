@@ -5,6 +5,18 @@ import Application from 'koa'
 import { addAdminBroRoutes, verifyAdminBro } from './utils'
 import { DEFAULT_ROOT_PATH, INITIALIZED_MESSAGE } from './constants'
 
+/**
+ * Builds regular koa router.
+ * @memberof module:@admin-bro/koa
+ *
+ * @param {AdminBro}    admin      AdminBro instance
+ * @param {Application} app        koa application created by `new Koa()`
+ * @param {Router}      [predefinedRouter] if you have any predefined router
+ *    pass it here
+ * @param {FormidableOptions} formidableOptions options passed to formidable
+ *    module {@link https://github.com/node-formidable/formidable#options}
+ * @return  {Router}  @koa/router
+ */
 const buildRouter = (
   admin: AdminBro,
   app: Application,
