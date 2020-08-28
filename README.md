@@ -12,7 +12,7 @@ Or visit [AdminBro](https://github.com/SoftwareBrothers/admin-bro) github page.
 
 ## Usage
 
-To see example usage see the [example-app](https://github.com/SoftwareBrothers/admin-bro-koa/tree/master/example-app) or visit the [Koa section under AdminBro project page](https://softwarebrothers.github.io/admin-bro-dev/module-admin-bro-koa.html)
+To see example usage see the [example-app](https://github.com/SoftwareBrothers/admin-bro-koa/tree/master/example-app) or visit the [Koa section under AdminBro project page](https://adminbro.com/module-@admin-bro_koa.html)
 
 ## License
 
