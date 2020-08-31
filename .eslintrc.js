@@ -10,6 +10,15 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
+  ignorePatterns: [
+    '*/build/**/*',
+    '*.json',
+    '*.txt',
+    'yarn.lock',
+    '*.yaml',
+    'node_modules',
+    '*.log',
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
