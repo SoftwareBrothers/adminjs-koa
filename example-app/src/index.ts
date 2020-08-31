@@ -18,6 +18,7 @@ const ADMIN = {
 
 AdminBro.registerAdapter(mongooseAdapter)
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const simpleRouter = async () => {
   const connection = await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/koa-example')
   const app = new Koa()
@@ -64,7 +65,6 @@ const authenticatedRouter = async () => {
       }
       return null
     },
-    cookiePassword: 'password',
   })
 
   app

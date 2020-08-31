@@ -14,8 +14,8 @@
  * yarn add admin-bro @admin-bro/koa @koa/router koa2-formidable
  * ```
  *
- * now you can use either {@link module:@admin-bro/koa.buildRouter} or
- * {@link module:@admin-bro/koa.buildAuthenticatedRouter} functions.
+ * now you can use either {@link module:@admin-bro/koa.buildRouter buildRouter} or
+ * {@link module:@admin-bro/koa.buildAuthenticatedRouter buildAuthenticatedRouter} functions.
  *
  * ## Usage
  *
@@ -60,13 +60,47 @@
  *
  * ## Using build in authentication
  *
- * To protect the routes with a session authentication, you can use any
- * middleware you want, and then simply pass `buildRouter` to the app.
+ * Plugin gives you a second method:
+ * {@link module:@admin-bro/koa.buildAuthenticatedRouter buildAuthenticatedRouter}. In order
+ * to have sign in logic out of the box - you can use it.
+ *
+ * ### Example with build in authentication
+ *
+ * Build in authentication is using cookie. So in order to make it work you have to set
+ * set koa [app.keys](https://koajs.com/#app-keys-):
+ *
+ * ```
+ * const app = new Koa();
+ * app.keys = ['super-secret1', super-'secret2']
+ * ```
+ *
+ * And this is how {@link module:@admin-bro/koa.buildAuthenticatedRouter buildAuthenticatedRouter}
+ * might look like:
+ *
+ * ```
+ * const router = buildAuthenticatedRouter(adminBro, app, {
+ *     authenticate: async (email, password) => {
+ *       const user = await User.findOne({ email })
+ *       if (password && user && await argon2.verify(user.encryptedPassword, password)){
+ *         return user.toJSON()
+ *       }
+ *       return null
+ *     },
+ *   })
+ * ```
+ *
+ * - We used [argon2](https://www.npmjs.com/package/argon2) to decrypt the password.
+ * - In the example User is a [mongoose](https://mongoosejs.com/) model.
+ *
  *
  * ## Adding custom authentication
  *
  * You can add your custom authentication setup by firstly creating the router and then
  * passing it via the `predefinedRouter` option.
+ *
+ * In this predefined router you can protect the routes with a session
+ * authentication where you can use any middleware you want.
+ * Furthermore, you can create your own sign-in/sign-up form.
  */
 
 import buildRouter from './buildRouter'
