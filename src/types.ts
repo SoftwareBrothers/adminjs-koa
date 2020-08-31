@@ -32,8 +32,4 @@ export type KoaAuthOptions = {
    * Function returning {@link CurrentAdmin}
    */
   authenticate: KoaAuthenticateFunction;
-  /**
-   * Cookie password
-   */
-  cookiePassword: string;
 }
