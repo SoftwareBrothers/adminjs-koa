@@ -10,6 +10,7 @@
       "strictPropertyInitialization": true,
       "strictFunctionTypes": true,
       "strictBindCallApply": true,
+      "skipLibCheck": true,
       "noImplicitThis": true,
       "moduleResolution": "node",
       "module": "commonjs"
