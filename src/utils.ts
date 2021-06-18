@@ -1,19 +1,19 @@
 import Router from '@koa/router'
 import Application, { ParameterizedContext } from 'koa'
-import AdminBro from 'admin-bro'
+import AdminJS from 'adminjs'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import path from 'path'
 import {
-  ADMIN_BRO_ERROR_MESSAGE,
-  ADMIN_BRO_ERROR_NAME,
-  ADMIN_BRO_PACKAGE_NAME, DEFAULT_ROOT_PATH,
+  ADMINJS_ERROR_MESSAGE,
+  ADMINJS_ERROR_NAME,
+  ADMINJS_PACKAGE_NAME, DEFAULT_ROOT_PATH,
   INVALID_CREDENTIALS_ERROR_MESSAGE,
 } from './constants'
 import { KoaAuthOptions } from './types'
 
-const addAdminBroRoutes = (admin: AdminBro, router: Router, app: Application): void => {
-  const { routes } = AdminBro.Router
+const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): void => {
+  const { routes } = AdminJS.Router
 
   routes.forEach((route) => {
     const koaPath = route.path.replace(/{/g, ':').replace(/}/g, '')
@@ -56,7 +56,7 @@ const addAdminBroRoutes = (admin: AdminBro, router: Router, app: Application): v
     }
   })
 
-  const { assets } = AdminBro.Router
+  const { assets } = AdminJS.Router
 
   assets.forEach((asset) => app.use(
     mount(admin.options.rootPath + asset.path,
@@ -64,15 +64,15 @@ const addAdminBroRoutes = (admin: AdminBro, router: Router, app: Application): v
   ))
 }
 
-const verifyAdminBro = (admin: AdminBro): void => {
-  if (!admin || admin.constructor.name !== ADMIN_BRO_PACKAGE_NAME) {
-    const e = new Error(ADMIN_BRO_ERROR_MESSAGE)
-    e.name = ADMIN_BRO_ERROR_NAME
+const verifyAdminJs = (admin: AdminJS): void => {
+  if (!admin || admin.constructor.name !== ADMINJS_PACKAGE_NAME) {
+    const e = new Error(ADMINJS_ERROR_MESSAGE)
+    e.name = ADMINJS_ERROR_NAME
     throw e
   }
 }
 
-const addAdminBroAuthRoutes = (admin: AdminBro, router: Router, auth: KoaAuthOptions): void => {
+const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptions): void => {
   const { rootPath } = admin.options
   let { loginPath, logoutPath } = admin.options
   loginPath = loginPath.replace(DEFAULT_ROOT_PATH, '')
@@ -105,7 +105,7 @@ const addAdminBroAuthRoutes = (admin: AdminBro, router: Router, auth: KoaAuthOpt
   })
 
   router.use(async (ctx: ParameterizedContext, next) => {
-    if (AdminBro.Router.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
+    if (AdminJS.Router.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
       await next()
     } else if (ctx.session.adminUser) {
       await next()
@@ -123,7 +123,7 @@ const addAdminBroAuthRoutes = (admin: AdminBro, router: Router, auth: KoaAuthOpt
 }
 
 export {
-  addAdminBroRoutes,
-  addAdminBroAuthRoutes,
-  verifyAdminBro,
+  addAdminJsRoutes,
+  addAdminJsAuthRoutes,
+  verifyAdminJs,
 }

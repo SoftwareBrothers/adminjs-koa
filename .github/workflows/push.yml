@@ -97,7 +97,7 @@ jobs:
           # just perform install
           runTests: false
           working-directory: example-app
-      - run: yarn link @admin-bro/koa
+      - run: yarn link @adminjs/koa
         working-directory: example-app
       - uses: cypress-io/github-action@v1
         with:
