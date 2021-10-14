@@ -1,6 +1,6 @@
 import Router from '@koa/router'
 import Application, { ParameterizedContext } from 'koa'
-import AdminJS from 'adminjs'
+import AdminJS, { Router as AdminJSRouter } from 'adminjs'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import path from 'path'
@@ -13,7 +13,7 @@ import {
 import { KoaAuthOptions } from './types'
 
 const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): void => {
-  const { routes } = AdminJS.Router
+  const { routes } = AdminJSRouter
 
   routes.forEach((route) => {
     const koaPath = route.path.replace(/{/g, ':').replace(/}/g, '')
@@ -56,7 +56,7 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
     }
   })
 
-  const { assets } = AdminJS.Router
+  const { assets } = AdminJSRouter
 
   assets.forEach((asset) => app.use(
     mount(admin.options.rootPath + asset.path,
@@ -105,7 +105,7 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
   })
 
   router.use(async (ctx: ParameterizedContext, next) => {
-    if (AdminJS.Router.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
+    if (AdminJSRouter.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
       await next()
     } else if (ctx.session.adminUser) {
       await next()
