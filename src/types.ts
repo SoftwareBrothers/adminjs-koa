@@ -1,4 +1,5 @@
 import { CurrentAdmin } from 'adminjs'
+import { opts as SessionOptions } from 'koa-session'
 
 /**
  * @memberof module:@adminjs/koa
@@ -32,4 +33,9 @@ export type KoaAuthOptions = {
    * Function returning {@link CurrentAdmin}
    */
   authenticate: KoaAuthenticateFunction;
+
+  /**
+   * Session options passed to koa-session
+   */
+  sessionOptions?: SessionOptions;
 }
