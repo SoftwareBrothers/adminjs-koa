@@ -9,7 +9,7 @@ import { DEFAULT_ROOT_PATH, INITIALIZED_MESSAGE } from './constants'
  * Builds regular koa router.
  * @memberof module:@adminjs/koa
  *
- * @param {AdminJS}    admin      AdminJS instance
+ * @param {AdminJS}     admin      AdminJS instance
  * @param {Application} app        koa application created by `new Koa()`
  * @param {Router}      [predefinedRouter] if you have any predefined router
  *    pass it here
