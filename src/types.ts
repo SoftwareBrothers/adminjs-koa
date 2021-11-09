@@ -37,5 +37,5 @@ export type KoaAuthOptions = {
   /**
    * Session options passed to koa-session
    */
-  sessionOptions?: SessionOptions;
+  sessionOptions?: Partial<SessionOptions>;
 }
