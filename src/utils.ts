@@ -86,15 +86,19 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
   })
 
   router.post(loginPath, async (ctx: ParameterizedContext) => {
+    if (ctx.session == null) {
+      throw new Error('Invalid state, no session object in context')
+    }
+
     const { email, password } = ctx.request.body
     const adminUser = await auth.authenticate(email, password)
     if (adminUser) {
       ctx.session.adminUser = adminUser
       ctx.session.save()
       if (ctx.session.redirectTo) {
-        await ctx.redirect(ctx.session.redirectTo)
+        ctx.redirect(ctx.session.redirectTo)
       } else {
-        await ctx.redirect(rootPath)
+        ctx.redirect(rootPath)
       }
     } else {
       ctx.body = await admin.renderLogin({
@@ -105,6 +109,10 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
   })
 
   router.use(async (ctx: ParameterizedContext, next) => {
+    if (ctx.session == null) {
+      throw new Error('Invalid state, no session object in context')
+    }
+
     if (AdminJSRouter.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
       await next()
     } else if (ctx.session.adminUser) {
