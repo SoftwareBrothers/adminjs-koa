@@ -1,8 +1,8 @@
 /**
- * @module @admin-bro/koa
+ * @module @adminjs/koa
  * @description
  *
- * This is an official plugin allowing you to run AdminBro on
+ * This is an official plugin allowing you to run AdminJS on
  * [koa framework](https://koajs.com/).
  *
  * ## installation
@@ -11,45 +11,45 @@
  * package along with its peerDependencies:
  *
  * ```
- * yarn add admin-bro @admin-bro/koa @koa/router koa2-formidable
+ * yarn add adminjs @adminjs/koa @koa/router koa2-formidable
  * ```
  *
- * now you can use either {@link module:@admin-bro/koa.buildRouter buildRouter} or
- * {@link module:@admin-bro/koa.buildAuthenticatedRouter buildAuthenticatedRouter} functions.
+ * now you can use either {@link module:@adminjs/koa.buildRouter buildRouter} or
+ * {@link module:@adminjs/koa.buildAuthenticatedRouter buildAuthenticatedRouter} functions.
  *
  * ## Usage
  *
  * ```javascript
- * const { buildRouter } = require('@admin-bro/koa')
+ * const { buildRouter } = require('@adminjs/koa')
  * // or
- * const { buildAuthenticatedRouter } = require('@admin-bro/koa')
+ * const { buildAuthenticatedRouter } = require('@adminjs/koa')
  * ```
  *
  * As you can see it exposes 2 methods that create an Koa Router, which can be attached
  * to a given url in the API. Each method takes a pre-configured instance
- * of {@link AdminBro}.
+ * of {@link AdminJS}.
  *
  * If you want to use a router you have already created - not a problem. Just pass it
  * as a `predefinedRouter` parameter.
  *
  * You may want to use this option when you want to include
- * some custom auth middleware for you AdminBro routes.
+ * some custom auth middleware for you AdminJS routes.
  *
  * ## Example without an authentication
  *
  * ```
- * const AdminBro = require('admin-bro')
- * const { buildRouter } = require('@admin-bro/koa')
+ * const AdminJS = require('adminjs')
+ * const { buildRouter } = require('@adminjs/koa')
  *
  * const Koa = require('koa');
  * const app = new Koa();
  *
- * const adminBro = new AdminBro({
+ * const adminJs = new AdminJS({
  *   databases: [],
  *   rootPath: '/admin',
  * })
  *
- * const router = buildRouter(adminBro, app)
+ * const router = buildRouter(adminJs, app)
  *
  * app
  *   .use(router.routes())
@@ -61,7 +61,7 @@
  * ## Using build in authentication
  *
  * Plugin gives you a second method:
- * {@link module:@admin-bro/koa.buildAuthenticatedRouter buildAuthenticatedRouter}. In order
+ * {@link module:@adminjs/koa.buildAuthenticatedRouter buildAuthenticatedRouter}. In order
  * to have sign in logic out of the box - you can use it.
  *
  * ### Example with build in authentication
@@ -74,11 +74,11 @@
  * app.keys = ['super-secret1', super-'secret2']
  * ```
  *
- * And this is how {@link module:@admin-bro/koa.buildAuthenticatedRouter buildAuthenticatedRouter}
+ * And this is how {@link module:@adminjs/koa.buildAuthenticatedRouter buildAuthenticatedRouter}
  * might look like:
  *
  * ```
- * const router = buildAuthenticatedRouter(adminBro, app, {
+ * const router = buildAuthenticatedRouter(AdminJS, app, {
  *     authenticate: async (email, password) => {
  *       const user = await User.findOne({ email })
  *       if (password && user && await argon2.verify(user.encryptedPassword, password)){
@@ -109,7 +109,7 @@ import buildAuthenticatedRouter from './buildAuthenticatedRouter'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { version } = require('../package.json')
 
-const name = 'AdminBroKoa'
+const name = 'AdminJSKoa'
 
 const defaultExport = {
   buildRouter,

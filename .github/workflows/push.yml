@@ -14,7 +14,7 @@ jobs:
       - name: Setup
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '14.x'
       - uses: actions/cache@v1
         id: yarn-cache
         with:
@@ -70,7 +70,7 @@ jobs:
       - name: Setup
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '14.x'
       - uses: actions/cache@v1
         id: yarn-cache
         with:
@@ -97,7 +97,7 @@ jobs:
           # just perform install
           runTests: false
           working-directory: example-app
-      - run: yarn link @admin-bro/koa
+      - run: yarn link @adminjs/koa
         working-directory: example-app
       - uses: cypress-io/github-action@v1
         with:
@@ -132,7 +132,7 @@ jobs:
       - name: Setup
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: '14.x'
       - name: Download Build
         uses: actions/download-artifact@v1
         with:

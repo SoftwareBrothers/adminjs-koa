@@ -1,22 +1,22 @@
-# Koa plugin for AdminBro
+# Koa plugin for AdminJS
 
-This is an official [AdminBro](https://github.com/SoftwareBrothers/admin-bro) plugin which integrates it to [koa](https://koajs.com) framework.
+This is an official [AdminJS](https://github.com/SoftwareBrothers/adminjs) plugin which integrates it to [koa](https://koajs.com) framework.
 
-## AdminBro
+## AdminJS
 
-AdminBro is an automatic admin interface which can be plugged into your application. You, as a developer, provide database models (like posts, comments, stores, products or whatever else your application uses), and AdminBro generates UI which allows you (or other trusted users) to manage content.
+AdminJS is an automatic admin interface which can be plugged into your application. You, as a developer, provide database models (like posts, comments, stores, products or whatever else your application uses), and AdminJS generates UI which allows you (or other trusted users) to manage content.
 
-Check out the example application with mongo and postgres models here: https://admin-bro-example-app-staging.herokuapp.com/admin
+Check out the example application with mongo and postgres models here: https://demo.adminjs.co/admin
 
-Or visit [AdminBro](https://github.com/SoftwareBrothers/admin-bro) github page.
+Or visit [AdminJS](https://github.com/SoftwareBrothers/adminjs) github page.
 
 ## Usage
 
-To see example usage see the [example-app](https://github.com/SoftwareBrothers/admin-bro-koa/tree/master/example-app) or visit the [Koa section under AdminBro project page](https://adminbro.com/module-@admin-bro_koa.html)
+To see example usage see the [example-app](https://github.com/SoftwareBrothers/adminjs-koa/tree/master/example-app) or visit the [Koa section under AdminJS project page](https://adminjs.co/module-@adminjs_koa.html)
 
 ## License
 
-AdminBro is Copyright © 2020 SoftwareBrothers.co. It is free software, and may be redistributed under the terms specified in the [LICENSE](LICENSE.md) file.
+AdminJS is Copyright © 2020 SoftwareBrothers.co. It is free software, and may be redistributed under the terms specified in the [LICENSE](LICENSE.md) file.
 
 ## About SoftwareBrothers.co
 

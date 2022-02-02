@@ -1,7 +1,7 @@
-import { CurrentAdmin } from 'admin-bro'
+import { CurrentAdmin } from 'adminjs'
 
 /**
- * @memberof module:@admin-bro/koa
+ * @memberof module:@adminjs/koa
  * @alias KoaAuthenticateFunction
  *
  * @description
@@ -21,7 +21,7 @@ export type KoaAuthenticateFunction = (
 ) => Promise<CurrentAdmin | null>
 
 /**
- * @memberof module:@admin-bro/koa
+ * @memberof module:@adminjs/koa
  * @alias KoaAuthOptions
  *
  * @description

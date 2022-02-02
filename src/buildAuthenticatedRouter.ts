@@ -1,9 +1,9 @@
 /* eslint-disable global-require */
-import AdminBro from 'admin-bro'
+import AdminJS from 'adminjs'
 import Router from '@koa/router'
 import formidableMiddleware from 'koa2-formidable'
 import Application from 'koa'
-import { addAdminBroAuthRoutes, addAdminBroRoutes } from './utils'
+import { addAdminJsAuthRoutes, addAdminJsRoutes } from './utils'
 import { DEFAULT_ROOT_PATH } from './constants'
 import { KoaAuthOptions } from './types'
 
@@ -18,9 +18,9 @@ try {
 
 /**
  * Builds regular koa router.
- * @memberof module:@admin-bro/koa
+ * @memberof module:@adminjs/koa
  *
- * @param {AdminBro}    admin      AdminBro instance
+ * @param {AdminJS}    admin      AdminJS instance
  * @param {Application} app        koa application created by `new Koa()`
  * @param {KoaAuthOptions} auth       authentication options
  * @param {Router}      [predefinedRouter] if you have any predefined router
@@ -30,11 +30,11 @@ try {
  * @return  {Router}  @koa/router
  */
 const buildAuthenticatedRouter = (
-  admin: AdminBro,
+  admin: AdminJS,
   app: Application,
   auth: KoaAuthOptions,
   predefinedRouter?: Router,
-  formidableOptions?: any,
+  formidableOptions?: Record<string, any>,
 ): Router => {
   if (!session) {
     throw new Error(['In order to use authentication, you have to install',
@@ -50,8 +50,8 @@ const buildAuthenticatedRouter = (
 
   app.use(session(app))
 
-  addAdminBroAuthRoutes(admin, router, auth)
-  addAdminBroRoutes(admin, router, app)
+  addAdminJsAuthRoutes(admin, router, auth)
+  addAdminJsRoutes(admin, router, app)
 
   return router
 }

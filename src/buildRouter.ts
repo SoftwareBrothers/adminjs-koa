@@ -1,15 +1,15 @@
-import AdminBro from 'admin-bro'
+import AdminJS from 'adminjs'
 import formidableMiddleware from 'koa2-formidable'
 import Router from '@koa/router'
 import Application from 'koa'
-import { addAdminBroRoutes, verifyAdminBro } from './utils'
+import { addAdminJsRoutes, verifyAdminJs } from './utils'
 import { DEFAULT_ROOT_PATH, INITIALIZED_MESSAGE } from './constants'
 
 /**
  * Builds regular koa router.
- * @memberof module:@admin-bro/koa
+ * @memberof module:@adminjs/koa
  *
- * @param {AdminBro}    admin      AdminBro instance
+ * @param {AdminJS}    admin      AdminJS instance
  * @param {Application} app        koa application created by `new Koa()`
  * @param {Router}      [predefinedRouter] if you have any predefined router
  *    pass it here
@@ -18,14 +18,15 @@ import { DEFAULT_ROOT_PATH, INITIALIZED_MESSAGE } from './constants'
  * @return  {Router}  @koa/router
  */
 const buildRouter = (
-  admin: AdminBro,
+  admin: AdminJS,
   app: Application,
   predefinedRouter?: Router,
-  formidableOptions?: any,
+  formidableOptions?: Record<string, any>,
 ): Router => {
-  verifyAdminBro(admin)
+  verifyAdminJs(admin)
 
   admin.initialize().then(() => {
+    // eslint-disable-next-line no-console
     console.log(INITIALIZED_MESSAGE)
   })
 
@@ -35,7 +36,7 @@ const buildRouter = (
 
   router.use(formidableMiddleware(formidableOptions))
 
-  addAdminBroRoutes(admin, router, app)
+  addAdminJsRoutes(admin, router, app)
 
   return router
 }

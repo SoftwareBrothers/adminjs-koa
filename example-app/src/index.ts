@@ -1,8 +1,8 @@
 import Koa from 'koa'
-import AdminBro from 'admin-bro'
-import adminBroKoa from '@admin-bro/koa'
+import AdminJS from 'adminjs'
+import AdminJSKoa from '@adminjs/koa'
 import mongoose from 'mongoose'
-import mongooseAdapter from '@admin-bro/mongoose'
+import mongooseAdapter from '@adminjs/mongoose'
 import './mongoose/admin-model'
 import './mongoose/article-model'
 
@@ -16,19 +16,19 @@ const ADMIN = {
   password: process.env.ADMIN_PASSWORD || 'password',
 }
 
-AdminBro.registerAdapter(mongooseAdapter)
+AdminJS.registerAdapter(mongooseAdapter)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const simpleRouter = async () => {
   const connection = await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/koa-example')
   const app = new Koa()
 
-  const admin = new AdminBro({
+  const admin = new AdminJS({
     databases: [connection],
     rootPath: '/admin',
   })
 
-  const router = adminBroKoa.buildRouter(admin, app)
+  const router = AdminJSKoa.buildRouter(admin, app)
 
   app
     .use(router.routes())
@@ -53,12 +53,12 @@ const authenticatedRouter = async () => {
   // in a real-world app the keys should be more complicated
   app.keys = ['secret1', 'secret2']
 
-  const admin = new AdminBro({
+  const admin = new AdminJS({
     databases: [connection],
     rootPath: '/admin',
   })
 
-  const router = adminBroKoa.buildAuthenticatedRouter(admin, app, {
+  const router = AdminJSKoa.buildAuthenticatedRouter(admin, app, {
     authenticate: async (email, password) => {
       if (ADMIN.password === password && ADMIN.email === email) {
         return ADMIN
