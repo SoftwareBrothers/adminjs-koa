@@ -1,6 +1,6 @@
 {
   "name": "@adminjs/koa",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "main": "build/index.js",
   "types": "types/index.d.ts",
   "private": false,
@@ -18,14 +18,14 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.3.5",
-    "@commitlint/config-conventional": "^8.3.4",
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0",
     "@semantic-release/git": "^9.0.0",
     "@types/koa": "^2.11.3",
+    "@types/koa__router": "^8.0.2",
     "@types/koa-bodyparser": "^4.3.0",
     "@types/koa-mount": "^4.0.0",
     "@types/koa-static": "^4.0.1",
-    "@types/koa__router": "^8.0.2",
     "@typescript-eslint/eslint-plugin": "^3.7.0",
     "@typescript-eslint/parser": "^3.7.0",
     "adminjs": "^5.0.0",
@@ -38,7 +38,7 @@
     "eslint-plugin-react-hooks": "^4.0.8",
     "husky": "^4.2.5",
     "semantic-release": "^17.0.7",
-    "semantic-release-slack-bot": "^1.6.2",
+    "semantic-release-slack-bot": "^2.1.1",
     "typescript": "^3.9.7"
   },
   "peerDependencies": {

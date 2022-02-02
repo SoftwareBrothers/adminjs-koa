@@ -34,7 +34,7 @@ const buildAuthenticatedRouter = (
   app: Application,
   auth: KoaAuthOptions,
   predefinedRouter?: Router,
-  formidableOptions?: any,
+  formidableOptions?: Record<string, any>,
 ): Router => {
   if (!session) {
     throw new Error(['In order to use authentication, you have to install',

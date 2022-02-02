@@ -21,11 +21,12 @@ const buildRouter = (
   admin: AdminJS,
   app: Application,
   predefinedRouter?: Router,
-  formidableOptions?: any,
+  formidableOptions?: Record<string, any>,
 ): Router => {
   verifyAdminJs(admin)
 
   admin.initialize().then(() => {
+    // eslint-disable-next-line no-console
     console.log(INITIALIZED_MESSAGE)
   })
 
