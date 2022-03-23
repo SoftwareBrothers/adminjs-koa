@@ -1,6 +1,6 @@
 import Router from '@koa/router'
-import Application, { ParameterizedContext } from 'koa'
-import AdminJS, { Router as AdminJSRouter } from 'adminjs'
+import Application, { ParameterizedContext, Middleware } from 'koa'
+import AdminJS, { ActionRequest, Router as AdminJSRouter } from 'adminjs'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import path from 'path'
@@ -18,20 +18,20 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
   routes.forEach((route) => {
     const koaPath = route.path.replace(/{/g, ':').replace(/}/g, '')
 
-    const handler = async (ctx, next) => {
+    const handler: Middleware = async (ctx) => {
       const { request, method, response, params, session } = ctx
       try {
         const controller = new route.Controller({ admin }, session && session.adminUser)
-        const html = await controller[route.action]({
+        const actionRequest: ActionRequest = {
           ...request,
-          method: method.toLowerCase(),
+          method: method.toLowerCase() as ActionRequest['method'],
           params,
           query: request.query,
           payload: {
             ...(request.body || {}),
-            ...(request.files || {}),
           },
-        }, response)
+        }
+        const html = await controller[route.action](actionRequest, response)
 
         if (route.contentType) {
           response.set({ 'Content-Type': route.contentType })
@@ -41,7 +41,7 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
           ctx.body = html
         }
       } catch (e) {
-        next(e)
+        ctx.throw(e)
       }
     }
     // if path is an empty string koa-router doesn't apply the prefix correctly hence the workaround
