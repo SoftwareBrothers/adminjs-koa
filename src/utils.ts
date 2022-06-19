@@ -102,7 +102,7 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
       }
     } else {
       ctx.body = await admin.renderLogin({
-        action: loginPath,
+        action: rootPath + loginPath,
         errorMessage: INVALID_CREDENTIALS_ERROR_MESSAGE,
       })
     }
