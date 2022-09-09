@@ -29,6 +29,7 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
           query: request.query,
           payload: {
             ...(request.body || {}),
+            ...(request.files || {}),
           },
         }
         const html = await controller[route.action](actionRequest, response)
