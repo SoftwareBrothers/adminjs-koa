@@ -1,9 +1,10 @@
 import Router from '@koa/router'
-import Application, { ParameterizedContext, Middleware } from 'koa'
+import Application, { ParameterizedContext, Request, Middleware } from 'koa'
 import AdminJS, { ActionRequest, Router as AdminJSRouter } from 'adminjs'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import path from 'path'
+import { Files } from 'formidable'
 import {
   ADMINJS_ERROR_MESSAGE,
   ADMINJS_ERROR_NAME,
@@ -12,6 +13,10 @@ import {
 } from './constants'
 import { KoaAuthOptions } from './types'
 
+type RequestWithFiles = Request & {
+  files: Files;
+};
+
 const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): void => {
   const { routes } = AdminJSRouter
 
@@ -19,7 +24,14 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
     const koaPath = route.path.replace(/{/g, ':').replace(/}/g, '')
 
     const handler: Middleware = async (ctx) => {
-      const { request, method, response, params, session } = ctx
+      const {
+        request,
+        method,
+        response,
+        params,
+        session,
+      } = ctx as (typeof ctx & { request: RequestWithFiles})
+
       try {
         const controller = new route.Controller({ admin }, session && session.adminUser)
         const actionRequest: ActionRequest = {
@@ -32,6 +44,7 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
             ...(request.files || {}),
           },
         }
+
         const html = await controller[route.action](actionRequest, response)
 
         if (route.contentType) {
