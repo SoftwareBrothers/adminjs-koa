@@ -103,14 +103,13 @@
  * Furthermore, you can create your own sign-in/sign-up form.
  */
 
-import buildAuthenticatedRouter from './buildAuthenticatedRouter.js';
-import buildRouter from './buildRouter.js';
+import buildAuthenticatedRouter from './buildAuthenticatedRouter.js'
+import buildRouter from './buildRouter.js'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-// const { version } = require('../package.json')
-import packageJson from '../package.json';
-const version = packageJson.version;
+import packageJson from '../package.json' assert { type: 'json' }
 
+const { version } = packageJson
 
 const name = 'AdminJSKoa'
 
@@ -121,15 +120,13 @@ export type KoaPlugin = {
   version: typeof version;
 };
 
+const plugin: KoaPlugin = { name, buildAuthenticatedRouter, buildRouter, version }
 
-const plugin: KoaPlugin = { name, buildAuthenticatedRouter, buildRouter, version };
-
-export default plugin;
+export default plugin
 
 export {
   buildRouter,
   buildAuthenticatedRouter,
   version,
-  name
-};
-
+  name,
+}
