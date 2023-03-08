@@ -1,13 +1,12 @@
 /* eslint-disable global-require */
-import AdminJS from 'adminjs'
 import Router from '@koa/router'
-import formidableMiddleware from 'koa2-formidable'
+import AdminJS from 'adminjs'
 import Application from 'koa'
 import session from 'koa-session'
-import { addAdminJsAuthRoutes, addAdminJsRoutes } from './utils'
-import { DEFAULT_ROOT_PATH } from './constants'
-import { KoaAuthOptions } from './types'
-
+import formidableMiddleware from 'koa2-formidable'
+import { DEFAULT_ROOT_PATH } from './constants.js'
+import { KoaAuthOptions } from './types.js'
+import { addAdminJsAuthRoutes, addAdminJsRoutes } from './utils.js'
 /**
  * Builds authenticated koa router.
  * @memberof module:@adminjs/koa

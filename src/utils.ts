@@ -1,17 +1,17 @@
 import Router from '@koa/router'
-import Application, { ParameterizedContext, Request, Middleware } from 'koa'
 import AdminJS, { ActionRequest, Router as AdminJSRouter } from 'adminjs'
+import { Files } from 'formidable'
+import Application, { Middleware, ParameterizedContext, Request } from 'koa'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import path from 'path'
-import { Files } from 'formidable'
 import {
   ADMINJS_ERROR_MESSAGE,
   ADMINJS_ERROR_NAME,
   ADMINJS_PACKAGE_NAME, DEFAULT_ROOT_PATH,
-  INVALID_CREDENTIALS_ERROR_MESSAGE,
-} from './constants'
-import { KoaAuthOptions } from './types'
+  INVALID_CREDENTIALS_ERROR_MESSAGE
+} from './constants.js'
+import { KoaAuthOptions } from './types.js'
 
 type RequestWithFiles = Request & {
   files: Files;
@@ -30,7 +30,7 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
         response,
         params,
         session,
-      } = ctx as (typeof ctx & { request: RequestWithFiles})
+      } = ctx as (typeof ctx & { request: RequestWithFiles })
 
       try {
         const controller = new route.Controller({ admin }, session && session.adminUser)
