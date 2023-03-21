@@ -106,12 +106,8 @@
 import buildAuthenticatedRouter from './buildAuthenticatedRouter.js'
 import buildRouter from './buildRouter.js'
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-import packageJson from '../package.json' assert { type: 'json' }
-
-const { version } = packageJson
-
 const name = 'AdminJSKoa'
+const version = '4'
 
 export type KoaPlugin = {
   name: string;

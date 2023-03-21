@@ -41,7 +41,7 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
           params,
           query: request.query,
           payload: {
-            ...(request.body || {}),
+            ...((request as any).body || {}),
             ...(request.files || {}),
           },
         }
@@ -105,7 +105,7 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
       throw new Error('Invalid state, no session object in context')
     }
 
-    const { email, password } = ctx.request.body
+    const { email, password } = (ctx.request as any).body
     const adminUser = await auth.authenticate(email, password)
     if (adminUser) {
       ctx.session.adminUser = adminUser
