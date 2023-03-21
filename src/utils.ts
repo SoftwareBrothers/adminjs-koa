@@ -74,8 +74,10 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
   const { assets } = AdminJSRouter
 
   assets.forEach((asset) => app.use(
-    mount(admin.options.rootPath + asset.path,
-      serve(path.dirname(asset.src), { index: path.basename(asset.src) })),
+    mount(
+      admin.options.rootPath + asset.path,
+      serve(path.dirname(asset.src), { index: path.basename(asset.src) }),
+    ),
   ))
 }
 

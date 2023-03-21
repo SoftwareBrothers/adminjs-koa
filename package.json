@@ -15,7 +15,7 @@
     "release": "semantic-release",
     "build": "tsc",
     "check:all": "yarn lint && yarn build && cd example-app && yarn build",
-    "lint": "eslint --ext='.ts,.js.tsx' './src/**/*' './example-app/**/*'"
+    "lint": "eslint --ext='.ts,.js' './src/**/*'"
   },
   "husky": {
     "hooks": {
