@@ -132,6 +132,8 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
 
     if (AdminJSRouter.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
       await next()
+    } else if (AdminJSRouter.routes.find((r) => r.action === 'bundleComponents')) {
+      await next()
     } else if (ctx.session.adminUser) {
       await next()
     } else {
