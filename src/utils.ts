@@ -1,17 +1,18 @@
 import Router from '@koa/router'
-import Application, { ParameterizedContext, Request, Middleware } from 'koa'
 import AdminJS, { ActionRequest, Router as AdminJSRouter } from 'adminjs'
+import { Files } from 'formidable'
+import Application, { Middleware, ParameterizedContext, Request } from 'koa'
 import mount from 'koa-mount'
 import serve from 'koa-static'
 import path from 'path'
-import { Files } from 'formidable'
+
 import {
   ADMINJS_ERROR_MESSAGE,
   ADMINJS_ERROR_NAME,
   ADMINJS_PACKAGE_NAME, DEFAULT_ROOT_PATH,
   INVALID_CREDENTIALS_ERROR_MESSAGE,
-} from './constants'
-import { KoaAuthOptions } from './types'
+} from './constants.js'
+import { KoaAuthOptions } from './types.js'
 
 type RequestWithFiles = Request & {
   files: Files;
@@ -30,7 +31,7 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
         response,
         params,
         session,
-      } = ctx as (typeof ctx & { request: RequestWithFiles})
+      } = ctx as (typeof ctx & { request: RequestWithFiles })
 
       try {
         const controller = new route.Controller({ admin }, session && session.adminUser)
@@ -40,7 +41,7 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
           params,
           query: request.query,
           payload: {
-            ...(request.body || {}),
+            ...((request as any).body || {}),
             ...(request.files || {}),
           },
         }
@@ -73,8 +74,10 @@ const addAdminJsRoutes = (admin: AdminJS, router: Router, app: Application): voi
   const { assets } = AdminJSRouter
 
   assets.forEach((asset) => app.use(
-    mount(admin.options.rootPath + asset.path,
-      serve(path.dirname(asset.src), { index: path.basename(asset.src) })),
+    mount(
+      admin.options.rootPath + asset.path,
+      serve(path.dirname(asset.src), { index: path.basename(asset.src) }),
+    ),
   ))
 }
 
@@ -104,7 +107,7 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
       throw new Error('Invalid state, no session object in context')
     }
 
-    const { email, password } = ctx.request.body
+    const { email, password } = (ctx.request as any).body
     const adminUser = await auth.authenticate(email, password)
     if (adminUser) {
       ctx.session.adminUser = adminUser
@@ -128,6 +131,8 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
     }
 
     if (AdminJSRouter.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
+      await next()
+    } else if (AdminJSRouter.routes.find((r) => r.action === 'bundleComponents')) {
       await next()
     } else if (ctx.session.adminUser) {
       await next()

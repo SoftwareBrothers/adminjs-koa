@@ -2,7 +2,6 @@ module.exports = {
   env: {
     browser: true,
     es2020: true,
-    'cypress/globals': true,
   },
   extends: [
     'airbnb',
@@ -23,12 +22,10 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 11,
+    ecmaVersion: 20,
     sourceType: 'module',
   },
   plugins: [
-    'react',
-    'cypress',
     '@typescript-eslint',
   ],
   rules: {
@@ -36,7 +33,6 @@ module.exports = {
     'no-unused-vars': 'off',
     'import/extensions': 'off',
     'import/no-unresolved': 'off',
-    'react/jsx-filename-extension': 'off',
     indent: [
       'error',
       2,
@@ -45,11 +41,4 @@ module.exports = {
     'object-curly-newline': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
   },
-  overrides: [{
-    files: ['*.tsx'],
-    rules: {
-      'react/prop-types': 'off',
-      'react/jsx-props-no-spreading': 'off',
-    },
-  }],
 }
