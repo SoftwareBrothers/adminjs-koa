@@ -1,6 +1,6 @@
 import Router from '@koa/router'
 import AdminJS, { ActionRequest, Router as AdminJSRouter } from 'adminjs'
-import { Files } from 'formidable'
+import type { Files } from 'formidable'
 import Application, { Middleware, ParameterizedContext, Request } from 'koa'
 import mount from 'koa-mount'
 import serve from 'koa-static'
@@ -125,6 +125,11 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
     }
   })
 
+  router.get(logoutPath, async (ctx: ParameterizedContext) => {
+    ctx.session = null
+    ctx.redirect(rootPath + loginPath)
+  })
+
   router.use(async (ctx: ParameterizedContext, next) => {
     if (ctx.session == null) {
       throw new Error('Invalid state, no session object in context')
@@ -132,7 +137,7 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
 
     if (AdminJSRouter.assets.find((asset) => ctx.request.originalUrl.match(asset.path))) {
       await next()
-    } else if (AdminJSRouter.routes.find((r) => r.action === 'bundleComponents')) {
+    } else if (AdminJSRouter.routes.find((r) => r.action === 'bundleComponents') && ctx.request.originalUrl.match('components.bundle.js')) {
       await next()
     } else if (ctx.session.adminUser) {
       await next()
@@ -141,11 +146,6 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
       ctx.session.redirectTo = redirectTo.includes(`${rootPath}/api`) ? rootPath : redirectTo
       ctx.redirect(rootPath + loginPath)
     }
-  })
-
-  router.get(logoutPath, async (ctx: ParameterizedContext) => {
-    ctx.session = null
-    ctx.redirect(rootPath + loginPath)
   })
 }
 
