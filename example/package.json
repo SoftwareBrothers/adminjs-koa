@@ -1,0 +1,22 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start:auth": "node auth.js",
+    "dev:auth": "nodemon auth.js",
+    "start:simple": "node simple.js",
+    "dev:simple": "nodemon simple.js"
+  },
+  "dependencies": {
+    "@adminjs/koa": "file:../",
+    "@koa/router": "^12.0.0",
+    "adminjs": "^7.0.0",
+    "koa": "^2.14.2",
+    "koa2-formidable": "^1.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
