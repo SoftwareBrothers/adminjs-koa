@@ -1,5 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import Router from '@koa/router'
-import AdminJS, { ActionRequest, Router as AdminJSRouter } from 'adminjs'
+import AdminJS, { ActionRequest, Router as AdminJSRouter, CurrentAdmin } from 'adminjs'
 import type { Files } from 'formidable'
 import Application, { Middleware, ParameterizedContext, Request } from 'koa'
 import mount from 'koa-mount'
@@ -13,6 +14,8 @@ import {
   INVALID_CREDENTIALS_ERROR_MESSAGE,
 } from './constants.js'
 import { KoaAuthOptions } from './types.js'
+
+const MISSING_PROVIDER_ERROR = '"provider" has to be configured to use refresh token mechanism'
 
 type RequestWithFiles = Request & {
   files: Files;
@@ -91,14 +94,23 @@ const verifyAdminJs = (admin: AdminJS): void => {
 
 const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptions): void => {
   const { rootPath } = admin.options
-  let { loginPath, logoutPath } = admin.options
+  let { loginPath, logoutPath, refreshTokenPath } = admin.options
   loginPath = loginPath.replace(DEFAULT_ROOT_PATH, '')
   logoutPath = logoutPath.replace(DEFAULT_ROOT_PATH, '')
+  refreshTokenPath = refreshTokenPath.replace(DEFAULT_ROOT_PATH, '')
+
+  const { provider } = auth
+  const providerProps = provider?.getUiProps() ?? {}
 
   router.get(loginPath, async (ctx) => {
-    ctx.body = await admin.renderLogin({
+    const baseProps = {
       action: rootPath + loginPath,
       errorMessage: null,
+    }
+
+    ctx.body = await admin.renderLogin({
+      ...baseProps,
+      ...providerProps,
     })
   })
 
@@ -107,8 +119,26 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
       throw new Error('Invalid state, no session object in context')
     }
 
-    const { email, password } = (ctx.request as any).body
-    const adminUser = await auth.authenticate(email, password)
+    let adminUser
+    if (provider) {
+      adminUser = await provider.handleLogin(
+        {
+          headers: ctx.request.headers ?? {},
+          query: ctx.request.query ?? {},
+          params: ctx.params ?? {},
+          data: ctx.request.body ?? {},
+        },
+        ctx,
+      )
+    } else {
+      const { email, password } = ctx.request.body as {
+        email: string;
+        password: string;
+      }
+      // "auth.authenticate" must always be defined if "auth.provider" isn't
+      adminUser = await auth.authenticate!(email, password, ctx)
+    }
+
     if (adminUser) {
       ctx.session.adminUser = adminUser
       ctx.session.save()
@@ -126,8 +156,50 @@ const addAdminJsAuthRoutes = (admin: AdminJS, router: Router, auth: KoaAuthOptio
   })
 
   router.get(logoutPath, async (ctx: ParameterizedContext) => {
+    if (provider) {
+      await provider.handleLogout(ctx)
+    }
+
     ctx.session = null
     ctx.redirect(rootPath + loginPath)
+  })
+
+  router.post(refreshTokenPath, async (ctx: ParameterizedContext) => {
+    if (ctx.session == null) {
+      throw new Error('Invalid state, no session object in context')
+    }
+
+    if (!provider) {
+      throw new Error(MISSING_PROVIDER_ERROR)
+    }
+
+    const updatedAuthInfo = await provider.handleRefreshToken(
+      {
+        data: ctx.request.body ?? {},
+        query: ctx.request.query ?? {},
+        params: ctx.params ?? {},
+        headers: ctx.request.headers,
+      },
+      ctx,
+    )
+
+    let adminObject = ctx.session.adminUser as Partial<CurrentAdmin> | null
+    if (!adminObject) {
+      adminObject = {}
+    }
+
+    if (!adminObject._auth) {
+      adminObject._auth = {}
+    }
+
+    adminObject._auth = {
+      ...adminObject._auth,
+      ...updatedAuthInfo,
+    }
+
+    ctx.session.adminUser = adminObject
+    ctx.body = adminObject
+    ctx.session.save()
   })
 
   router.use(async (ctx: ParameterizedContext, next) => {
