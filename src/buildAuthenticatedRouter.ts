@@ -8,6 +8,10 @@ import formidableMiddleware from 'koa2-formidable'
 import { DEFAULT_ROOT_PATH } from './constants.js'
 import { KoaAuthOptions } from './types.js'
 import { addAdminJsAuthRoutes, addAdminJsRoutes } from './utils.js'
+
+const MISSING_AUTH_CONFIG_ERROR = 'You must configure either "authenticate" method or assign an auth "provider"'
+const INVALID_AUTH_CONFIG_ERROR = 'You cannot configure both "authenticate" and "provider". "authenticate" will be removed in next major release.'
+
 /**
  * Builds authenticated koa router.
  * @memberof module:@adminjs/koa
@@ -28,6 +32,22 @@ const buildAuthenticatedRouter = (
   predefinedRouter?: Router,
   formidableOptions?: Record<string, any>,
 ): Router => {
+  if (!auth.authenticate && !auth.provider) {
+    throw new Error(MISSING_AUTH_CONFIG_ERROR)
+  }
+
+  if (auth.authenticate && auth.provider) {
+    throw new Error(INVALID_AUTH_CONFIG_ERROR)
+  }
+
+  if (auth.provider) {
+    // eslint-disable-next-line no-param-reassign
+    admin.options.env = {
+      ...admin.options.env,
+      ...auth.provider.getUiProps(),
+    }
+  }
+
   const router = predefinedRouter || new Router({
     prefix: admin.options.rootPath || DEFAULT_ROOT_PATH,
   })

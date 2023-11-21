@@ -1,4 +1,5 @@
-import { CurrentAdmin } from 'adminjs'
+import { BaseAuthProvider, CurrentAdmin } from 'adminjs'
+import { ParameterizedContext } from 'koa'
 import { opts as SessionOptions } from 'koa-session'
 
 /**
@@ -18,7 +19,11 @@ export type KoaAuthenticateFunction = (
   /**
    * Password passed in a form
    */
-  password: string
+  password: string,
+  /**
+   * Request context
+   */
+  context?: ParameterizedContext
 ) => Promise<CurrentAdmin | null>
 
 /**
@@ -32,10 +37,15 @@ export type KoaAuthOptions = {
   /**
    * Function returning {@link CurrentAdmin}
    */
-  authenticate: KoaAuthenticateFunction;
+  authenticate?: KoaAuthenticateFunction;
 
   /**
    * Session options passed to koa-session
    */
   sessionOptions?: Partial<SessionOptions>;
+
+  /**
+   * Auth provider instance
+   */
+  provider?: BaseAuthProvider;
 }
